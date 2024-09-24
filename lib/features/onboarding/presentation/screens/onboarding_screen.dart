@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tqnia_chat_app_task/core/theming/colors.dart';
+import 'package:tqnia_chat_app_task/core/util/constant.dart';
 import 'package:tqnia_chat_app_task/features/onboarding/presentation/controller/onboarding_cubit.dart';
-import 'package:tqnia_chat_app_task/features/onboarding/presentation/controller/onboarding_state.dart';
+import '../../../chat_home/presentation/screens/home_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key});
+  OnboardingScreen({super.key});
 
-  final String imagePath = 'assets/images/icon.png';
-  final String title = 'Welcome to ChatGPT';
-  final String subtitle = 'Ask anything, get your answer';
+  final String imagePath = AppConstants.imagepath;
+  final String title = AppConstants.title;
+  final String subtitle = AppConstants.subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +35,7 @@ class OnboardingScreen extends StatelessWidget {
                       _buildOnboardingPage(
                         context,
                         sectionTitle: 'Examples',
-                        sectionIcon:
-                            Icons.lightbulb_outline, // Light icon for Examples
+                        sectionIcon: Icons.lightbulb_outline,
                         examples: [
                           '“Explain quantum computing in simple terms”',
                           '“Got any creative ideas for a 10 year old’s birthday?”',
@@ -67,7 +67,6 @@ class OnboardingScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Rectangular Page Indicator + Next Button
                 _buildBottomNavigation(context, state, pageController),
               ],
             );
@@ -77,7 +76,6 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  // Onboarding Page Widget
   Widget _buildOnboardingPage(
     BuildContext context, {
     required String sectionTitle,
@@ -101,10 +99,9 @@ class OnboardingScreen extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 28.sp,
-              color: Colors.white,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 28.sp,
+                color: Kcolor.mywhite),
           ),
           SizedBox(height: 10.h),
           // Subtitle (Same for all screens)
@@ -126,14 +123,14 @@ class OnboardingScreen extends StatelessWidget {
                 children: [
                   Icon(
                     sectionIcon,
-                    color: Colors.white,
+                    color: Kcolor.mywhite,
                     size: 24.sp,
                   ),
                   SizedBox(width: 10.w),
                   Text(
                     sectionTitle,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Kcolor.mywhite,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -141,10 +138,7 @@ class OnboardingScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.h),
-              // Examples or Capability or Limitation Section
-              ...examples
-                  .map((example) => _buildExampleButton(example))
-                  .toList(),
+              ...examples.map((example) => _buildExampleButton(example)),
             ],
           ),
         ],
@@ -152,7 +146,6 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  // Example Button UI
   Widget _buildExampleButton(String text) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -164,13 +157,12 @@ class OnboardingScreen extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(color: Colors.white), // White text
+          style: const TextStyle(color: Kcolor.mywhite), // White text
         ),
       ),
     );
   }
 
-  // Bottom Navigation with Indicator and Next Button
   Widget _buildBottomNavigation(
       BuildContext context, int state, PageController pageController) {
     return Padding(
@@ -196,7 +188,6 @@ class OnboardingScreen extends StatelessWidget {
                   curve: Curves.easeInOut,
                 );
               } else {
-                // TODO: Navigate to home screen or main app
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -213,7 +204,7 @@ class OnboardingScreen extends StatelessWidget {
               state == 2
                   ? 'Let\'s Chat'
                   : 'Next', // Change button text on last screen
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Kcolor.mywhite),
             ),
           ),
         ],
@@ -221,7 +212,6 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  // Rectangular Indicator Widget
   Widget _buildRectangleIndicator({required bool isActive}) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.w),
@@ -232,33 +222,5 @@ class OnboardingScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(3.w), // Slight rounded corners
       ),
     );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chat Home Screen'),
-      ),
-      body: const Center(
-        child: Text('Welcome to the Chat Home Screen!'),
-      ),
-    );
-  }
-}
-
-class OnboardingCubit extends Cubit<int> {
-  OnboardingCubit() : super(0);
-
-  void setPage(int index) {
-    emit(index);
-  }
-
-  void nextScreen() {
-    emit(state + 1);
   }
 }

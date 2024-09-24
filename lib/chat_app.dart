@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tqnia_chat_app_task/core/routes/app_route.dart';
 import 'package:tqnia_chat_app_task/core/util/constant.dart';
-import 'package:tqnia_chat_app_task/features/onboarding/presentation/screens/onboarding_01_screen.dart';
+import 'package:tqnia_chat_app_task/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
