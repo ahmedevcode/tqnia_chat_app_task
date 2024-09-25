@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tqnia_chat_app_task/core/routes/routes.dart';
 import 'package:tqnia_chat_app_task/core/theming/colors.dart';
 import 'package:tqnia_chat_app_task/core/util/constant.dart';
 import 'package:tqnia_chat_app_task/features/onboarding/presentation/controller/onboarding_cubit.dart';
-import '../../../chat_home/presentation/screens/home_screen.dart';
+import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
@@ -188,12 +189,7 @@ class OnboardingScreen extends StatelessWidget {
                   curve: Curves.easeInOut,
                 );
               } else {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const HomeScreen()), // Replace HomeScreen with your actual home screen
-                );
+                Navigator.pushNamed(context, Routes.dashboard);
               }
             },
             style: ElevatedButton.styleFrom(
