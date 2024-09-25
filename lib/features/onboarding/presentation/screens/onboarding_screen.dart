@@ -5,10 +5,11 @@ import 'package:tqnia_chat_app_task/core/routes/routes.dart';
 import 'package:tqnia_chat_app_task/core/theming/colors.dart';
 import 'package:tqnia_chat_app_task/core/util/constant.dart';
 import 'package:tqnia_chat_app_task/features/onboarding/presentation/controller/onboarding_cubit.dart';
-import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
-  OnboardingScreen({super.key});
+  final VoidCallback onComplete;
+
+  OnboardingScreen({super.key, required this.onComplete});
 
   final String imagePath = AppConstants.imagepath;
   final String title = AppConstants.title;
@@ -46,23 +47,21 @@ class OnboardingScreen extends StatelessWidget {
                       _buildOnboardingPage(
                         context,
                         sectionTitle: 'Capability',
-                        sectionIcon: Icons
-                            .electrical_services, // Electric icon for Capability
+                        sectionIcon: Icons.electrical_services,
                         examples: [
-                          '“What is AI and how does it work?”',
-                          '“Tell me a joke!”',
-                          '“Explain the theory of relativity”',
+                          '“Remembers what user said earlier in the conversation”',
+                          '“Allows user to provide follow-up corrections”',
+                          '“Trained to decline inappropriate requests”',
                         ],
                       ),
                       _buildOnboardingPage(
                         context,
                         sectionTitle: 'Limitation',
-                        sectionIcon: Icons
-                            .warning_amber_rounded, // Limit icon for Limitation
+                        sectionIcon: Icons.warning_amber_rounded,
                         examples: [
-                          '“AI cannot predict the future.”',
-                          '“AI does not have human emotions.”',
-                          '“Explain the limits of machine learning”',
+                          '“May occasionally generate incorrect information”',
+                          '“May occasionally produce harmful instructions or biased content”',
+                          '“Limited knowledge of world and events after 2021”',
                         ],
                       ),
                     ],
@@ -88,14 +87,12 @@ class OnboardingScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Top Image (Same for all screens)
           SizedBox(
             height: 80.h,
             width: 80.w,
             child: Image.asset(imagePath),
           ),
           SizedBox(height: 30.h),
-          // Title (Same for all screens)
           Text(
             title,
             textAlign: TextAlign.center,
@@ -105,7 +102,6 @@ class OnboardingScreen extends StatelessWidget {
                 color: Kcolor.mywhite),
           ),
           SizedBox(height: 10.h),
-          // Subtitle (Same for all screens)
           Text(
             subtitle,
             textAlign: TextAlign.center,
@@ -115,10 +111,8 @@ class OnboardingScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30.h),
-          // Section (Examples/Capability/Limitation)
           Column(
             children: [
-              // Icon and Section Title
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -153,12 +147,12 @@ class OnboardingScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF444654), // Gray background
+          backgroundColor: const Color(0xFF444654),
           padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         ),
         child: Text(
           text,
-          style: const TextStyle(color: Kcolor.mywhite), // White text
+          style: const TextStyle(color: Kcolor.mywhite),
         ),
       ),
     );
@@ -170,7 +164,6 @@ class OnboardingScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       child: Column(
         children: [
-          // Rectangular Page Indicator (Above Next button)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -179,8 +172,7 @@ class OnboardingScreen extends StatelessWidget {
               _buildRectangleIndicator(isActive: state == 2),
             ],
           ),
-          SizedBox(height: 20.h), // Space between indicator and button
-          // Next Button
+          SizedBox(height: 20.h),
           ElevatedButton(
             onPressed: () {
               if (state < 2) {
@@ -189,6 +181,9 @@ class OnboardingScreen extends StatelessWidget {
                   curve: Curves.easeInOut,
                 );
               } else {
+                if (onComplete != null) {
+                  onComplete!();
+                }
                 Navigator.pushNamed(context, Routes.dashboard);
               }
             },
@@ -197,9 +192,7 @@ class OnboardingScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
             ),
             child: Text(
-              state == 2
-                  ? 'Let\'s Chat'
-                  : 'Next', // Change button text on last screen
+              state == 2 ? 'Let\'s Chat' : 'Next',
               style: const TextStyle(color: Kcolor.mywhite),
             ),
           ),
@@ -212,10 +205,10 @@ class OnboardingScreen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.w),
       height: 6.h,
-      width: 20.w, // Make it rectangular
+      width: 20.w,
       decoration: BoxDecoration(
         color: isActive ? Colors.green : Colors.grey,
-        borderRadius: BorderRadius.circular(3.w), // Slight rounded corners
+        borderRadius: BorderRadius.circular(3.w),
       ),
     );
   }

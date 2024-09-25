@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tqnia_chat_app_task/chat_app.dart';
 import 'package:tqnia_chat_app_task/core/routes/routes.dart';
-import 'package:tqnia_chat_app_task/core/theming/colors.dart';
 import 'package:hive/hive.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final VoidCallback toggleTheme;
+
+  const DashboardScreen({super.key, required this.toggleTheme});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
@@ -18,58 +19,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _loadChatHistory(); // Load chat history when the widget initializes
+    _loadChatHistory();
   }
 
   Future<void> _loadChatHistory() async {
     var box = Hive.box('chat_history');
     setState(() {
-      chatHistory =
-          List<String>.from(box.values); // Update the chat history state
+      chatHistory = List<String>.from(box.values);
     });
   }
 
   Future<void> clearChatHistory() async {
     var box = Hive.box('chat_history');
-    await box.clear(); // Clear all entries in the Hive box
-    print('Chat history cleared');
-    _loadChatHistory(); // Reload chat history after clearing
+    await box.clear();
+    _loadChatHistory();
   }
 
   Future<void> _editQuestion(int index, String newQuestion) async {
     var box = Hive.box('chat_history');
-    await box.putAt(index, newQuestion); // Update the specific question in Hive
-    _loadChatHistory(); // Reload chat history after editing
+    await box.putAt(index, newQuestion);
+    _loadChatHistory();
   }
 
   Future<void> _deleteQuestion(int index) async {
     var box = Hive.box('chat_history');
-    await box.deleteAt(index); // Delete the specific question from Hive
-    _loadChatHistory(); // Reload chat history after deletion
+    await box.deleteAt(index);
+    _loadChatHistory();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Kcolor.conversitioncolor,
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Colors.white54),
+              bottom: BorderSide(color: Theme.of(context).primaryColorLight),
             ),
           ),
           child: IconButton(
-            icon: const Icon(Icons.messenger, color: Kcolor.mywhite),
+            icon: Icon(Icons.messenger,
+                color: Theme.of(context).textTheme.bodyLarge?.color),
             onPressed: () {},
           ),
         ),
-        backgroundColor: Kcolor.conversitioncolor,
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           Container(
             height: 100,
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white54)),
+            decoration: BoxDecoration(
+              border: Border(
+                  bottom:
+                      BorderSide(color: Theme.of(context).primaryColorLight)),
             ),
             child: Row(
               children: [
@@ -78,17 +80,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onTap: () {
                     Navigator.pushNamed(context, Routes.conversition);
                   },
-                  child: Title(
-                    color: Kcolor.mywhite,
-                    child: Text(
-                      'New chat',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Kcolor.mywhite),
+                  child: Text(
+                    'New chat',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
-                SizedBox(width: 200),
-                Icon(Icons.arrow_forward_ios, color: Kcolor.mywhite),
+                SizedBox(width: 200.w),
+                Icon(Icons.arrow_forward_ios,
+                    color: Theme.of(context).textTheme.bodyLarge?.color),
               ],
             ),
           )
@@ -97,55 +99,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 300,
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white54)),
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: chatHistory.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Icon(Icons.messenger,
-                                  color: Kcolor.mywhite), // Chat Icon
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  chatHistory[index],
-                                  style: TextStyle(color: Kcolor.mywhite),
-                                ), // Question Text
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.edit,
-                                    color: Kcolor.mywhite), // Settings Icon
-                                onPressed: () {
-                                  _showEditDialog(
-                                      context, index, chatHistory[index]);
-                                },
-                              ),
-                            ],
+          Expanded(
+            child: ListView.builder(
+              itemCount: chatHistory.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 12.w),
+                        Icon(Icons.messenger,
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.color), // Chat Icon
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            chatHistory[index],
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color),
                           ),
-                          Divider(color: Colors.white54), // Divider line
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.edit,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color),
+                          onPressed: () {
+                            _showEditDialog(context, index, chatHistory[index]);
+                          },
+                        ),
+                      ],
+                    ),
+                    Divider(color: Theme.of(context).primaryColorLight),
+                  ],
+                );
+              },
             ),
           ),
           TextButton.icon(
             style: TextButton.styleFrom(
-              foregroundColor: Colors.white60,
+              foregroundColor: Theme.of(context).primaryColorLight,
               textStyle: const TextStyle(fontSize: 16),
             ),
             onPressed: () async {
@@ -156,7 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           TextButton.icon(
             style: TextButton.styleFrom(
-              foregroundColor: Colors.white60,
+              foregroundColor: Theme.of(context).primaryColorLight,
               textStyle: const TextStyle(fontSize: 16),
             ),
             onPressed: () {},
@@ -183,16 +180,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           TextButton.icon(
             style: TextButton.styleFrom(
-              foregroundColor: Colors.white60,
+              foregroundColor: Theme.of(context).primaryColorLight,
               textStyle: const TextStyle(fontSize: 16),
             ),
-            onPressed: () {},
+            onPressed: widget.toggleTheme,
             icon: const Icon(Icons.light_mode),
             label: const Text('Light Mode'),
           ),
           TextButton.icon(
             style: TextButton.styleFrom(
-              foregroundColor: Colors.white60,
+              foregroundColor: Theme.of(context).primaryColorLight,
               textStyle: const TextStyle(fontSize: 16),
             ),
             onPressed: () {
@@ -218,54 +215,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void _showEditDialog(BuildContext context, int index, String question) {
     TextEditingController controller = TextEditingController(text: question);
     showDialog(
-      barrierColor: Kcolor.mainbackgroundcolor,
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Kcolor.conversitioncolor,
-          title: Text(
-            "Edit Question",
-            style: TextStyle(
-              color: Kcolor.mywhite,
-            ),
-          ),
+          title: const Text("Edit Question"),
           content: TextField(
             controller: controller,
-            style: TextStyle(color: Colors.white), // Change text color to white
-            decoration: InputDecoration(
-              labelText: "Question",
-              labelStyle:
-                  TextStyle(color: Colors.white), // Change label color to white
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.white), // Change border color to white
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.green), // Change focused border color
-              ),
-              filled: true,
-              fillColor: Kcolor
-                  .conversitioncolor, // Change fill color to match your theme
-            ),
+            decoration: const InputDecoration(labelText: "Question"),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                _editQuestion(index, controller.text); // Edit question
+                _editQuestion(index, controller.text);
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 "Save",
                 style: TextStyle(color: Colors.green),
               ),
             ),
             TextButton(
               onPressed: () {
-                _deleteQuestion(index); // Delete question
+                _deleteQuestion(index);
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 "Delete",
                 style: TextStyle(color: Colors.red),
               ),

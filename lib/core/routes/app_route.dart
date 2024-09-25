@@ -11,15 +11,36 @@ class AppRouter {
   static MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.onBoarding:
-        return MaterialPageRoute(builder: (context) => OnboardingScreen());
+        final onComplete = settings.arguments as VoidCallback?;
+        return MaterialPageRoute(
+          builder: (context) => OnboardingScreen(
+            onComplete: onComplete ??
+                () {
+                  // Default onComplete logic here (if null)
+                },
+          ),
+        );
+
       case Routes.dashboard:
-        return MaterialPageRoute(builder: (context) => DashboardScreen());
+        final toggleTheme = settings.arguments as VoidCallback?;
+        return MaterialPageRoute(
+          builder: (context) => DashboardScreen(
+            toggleTheme: toggleTheme ??
+                () {
+                  // Default toggleTheme logic here (if null)
+                  print('toggleTheme not passed, using default');
+                },
+          ),
+        );
+
       case Routes.conversition:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider<ChatCubit>(
-                create: (BuildContext context) =>
-                    ChatCubit(GenerativeChatService()),
-                child: Conversition()));
+          builder: (_) => BlocProvider<ChatCubit>(
+            create: (BuildContext context) =>
+                ChatCubit(GenerativeChatService()),
+            child: Conversition(),
+          ),
+        );
 
       default:
         return MaterialPageRoute(
