@@ -71,143 +71,160 @@ class _DashboardScreenState extends State<DashboardScreen> {
             decoration: BoxDecoration(
               border: Border(
                   bottom:
-                      BorderSide(color: Theme.of(context).primaryColorLight)),
+                  BorderSide(color: Theme.of(context).primaryColorLight)),
             ),
-            child: Row(
-              children: [
-                const SizedBox(width: 25),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.conversition);
-                  },
-                  child: Text(
-                    'New chat',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                    bottom:
+                    BorderSide(color: Theme.of(context).primaryColorLight)),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 105),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.conversition);
+                    },
+                    child: Text(
+                      'New chat',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 200.w),
-                Icon(Icons.arrow_forward_ios,
-                    color: Theme.of(context).textTheme.bodyLarge?.color),
-              ],
+                  SizedBox(width: 200.w),
+                  Icon(Icons.arrow_forward_ios,
+                      color: Theme.of(context).textTheme.bodyLarge?.color),
+                ],
+              ),
             ),
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: chatHistory.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(width: 12.w),
-                        Icon(Icons.messenger,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.color), // Chat Icon
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Text(
-                            chatHistory[index],
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color),
+      body: Container(
+      decoration: BoxDecoration(
+    border: Border(
+
+      left: BorderSide(color: Theme.of(context).primaryColorLight),
+    bottom:  BorderSide(color: Theme.of(context).primaryColorLight),
+
+    right: BorderSide(color: Theme.of(context).primaryColorLight),
+    )),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: chatHistory.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(width: 12.w),
+                          Icon(Icons.messenger,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.color), // Chat Icon
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: Text(
+                              chatHistory[index],
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color),
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.edit,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color),
-                          onPressed: () {
-                            _showEditDialog(context, index, chatHistory[index]);
-                          },
-                        ),
-                      ],
-                    ),
-                    Divider(color: Theme.of(context).primaryColorLight),
-                  ],
-                );
-              },
-            ),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).primaryColorLight,
-              textStyle: const TextStyle(fontSize: 16),
-            ),
-            onPressed: () async {
-              await clearChatHistory();
-            },
-            icon: const Icon(Icons.delete),
-            label: const Text('Clear conversations'),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).primaryColorLight,
-              textStyle: const TextStyle(fontSize: 16),
-            ),
-            onPressed: () {},
-            icon: const Icon(Icons.person),
-            label: Row(
-              children: [
-                const Text('Upgrade to Plus'),
-                SizedBox(
-                  width: 80.w,
-                ),
-                TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            WidgetStateProperty.all(const Color(0xff887B06))),
-                    onPressed: () {},
-                    child: const Text(
-                      'News',
-                      style: TextStyle(
-                        color: Colors.orange,
+                          IconButton(
+                            icon: Icon(Icons.edit,
+                                color:
+                                Theme.of(context).textTheme.bodyLarge?.color),
+                            onPressed: () {
+                              _showEditDialog(context, index, chatHistory[index]);
+                            },
+                          ),
+                        ],
                       ),
-                    ))
-              ],
+                      Divider(color: Theme.of(context).primaryColorLight),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).primaryColorLight,
-              textStyle: const TextStyle(fontSize: 16),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).primaryColorLight,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              onPressed: () async {
+                await clearChatHistory();
+              },
+              icon: const Icon(Icons.delete),
+              label: const Text('Clear conversations'),
             ),
-            onPressed: widget.toggleTheme,
-            icon: const Icon(Icons.light_mode),
-            label: const Text('Light Mode'),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).primaryColorLight,
-              textStyle: const TextStyle(fontSize: 16),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).primaryColorLight,
+                textStyle:  TextStyle(fontSize: 16.sp),
+              ),
+              onPressed: () {},
+              icon: const Icon(Icons.person),
+              label: Row(
+                children: [
+                  const Text('Upgrade to Plus'),
+                  SizedBox(
+                    width: 120.w,
+                  ),
+                  TextButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                          WidgetStateProperty.all(const Color(0xff887B06))),
+                      onPressed: () {},
+                      child:  Text(
+                        'News',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColorLight,
+                        ),
+                      ))
+                ],
+              ),
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.conversition);
-            },
-            icon: const Icon(Icons.update),
-            label: const Text('Updates & FAQ'),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.red,
-              textStyle: const TextStyle(fontSize: 16),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).primaryColorLight,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              onPressed: widget.toggleTheme,
+              icon: const Icon(Icons.light_mode),
+              label: const Text('Light Mode'),
             ),
-            onPressed: () {},
-            icon: const Icon(Icons.logout),
-            label: const Text('Log out'),
-          )
-        ],
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).primaryColorLight,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.conversition);
+              },
+              icon: const Icon(Icons.update),
+              label: const Text('Updates & FAQ'),
+            ),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              onPressed: () {},
+              icon: const Icon(Icons.logout),
+              label: const Text('Log out'),
+            )
+          ],
+        ),
       ),
     );
   }

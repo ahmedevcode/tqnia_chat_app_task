@@ -141,7 +141,7 @@ class Conversition extends StatelessWidget {
                               ),
                               padding: const EdgeInsets.all(12),
                               child: Transform.rotate(
-                                angle: 200,
+                                angle: 12,
                                 child: Icon(Icons.send,
                                     color: Theme.of(context)
                                         .textTheme
