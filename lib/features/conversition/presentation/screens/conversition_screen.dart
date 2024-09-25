@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:tqnia_chat_app_task/core/routes/routes.dart';
 import 'package:tqnia_chat_app_task/core/theming/colors.dart';
 import 'package:tqnia_chat_app_task/core/util/constant.dart';
 import 'package:tqnia_chat_app_task/features/conversition/data/models/chat_model.dart';
@@ -15,9 +17,8 @@ class Conversition extends StatelessWidget {
       appBar: AppBar(
         leading: Container(
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Kcolor.mywhite),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+              icon: Icon(Icons.arrow_back_ios, color: Kcolor.mywhite),
+              onPressed: () => Navigator.pushNamed(context, Routes.dashboard)),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(color: Colors.white54),
@@ -108,12 +109,20 @@ class Conversition extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // Inside your Conversition class
                           InkWell(
                             onTap: () {
                               if (_controller.text.isNotEmpty) {
-                                context
-                                    .read<ChatCubit>()
-                                    .sendMessage(_controller.text);
+                                // Save the question in Hive when sending the message
+                                var box = Hive.box('chat_history');
+                                String question = _controller.text;
+
+                                // Save the question in Hive
+                                box.add(question);
+                                print('Question saved: $question');
+
+                                // Send the message using the ChatCubit
+                                context.read<ChatCubit>().sendMessage(question);
                                 _controller.clear();
                               }
                             },
