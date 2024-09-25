@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tqnia_chat_app_task/core/routes/routes.dart';
-import 'package:tqnia_chat_app_task/features/conversition/presentation/screens/conversition.dart';
+import 'package:tqnia_chat_app_task/features/conversition/data/data_sources/Apis/GenerativeChatService.dart';
+import 'package:tqnia_chat_app_task/features/conversition/presentation/controller/chat_cubit.dart';
+import 'package:tqnia_chat_app_task/features/conversition/presentation/screens/conversition_screen.dart';
 import 'package:tqnia_chat_app_task/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:tqnia_chat_app_task/features/onboarding/presentation/screens/onboarding_screen.dart';
 
@@ -12,7 +15,11 @@ class AppRouter {
       case Routes.dashboard:
         return MaterialPageRoute(builder: (context) => DashboardScreen());
       case Routes.conversition:
-        return MaterialPageRoute(builder: (context) => Conversition());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<ChatCubit>(
+                create: (BuildContext context) =>
+                    ChatCubit(GenerativeChatService()),
+                child: Conversition()));
 
       default:
         return MaterialPageRoute(
