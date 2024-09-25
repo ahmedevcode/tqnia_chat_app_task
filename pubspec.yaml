@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
   flutter_screenutil: ^5.9.3
   google_generative_ai: ^0.4.6
@@ -45,7 +46,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: ^1.1.0
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/splashlogo.png" # Path to your app icon
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
