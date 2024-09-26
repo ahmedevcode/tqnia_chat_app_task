@@ -1,8 +1,7 @@
-# tqnia_chat_app_task
 
 # TQnia Chat App🧑‍💻
-Overview
-TQnia Chat App is a Flutter-based chat application designed to provide seamless messaging features. It offers a user-friendly interface with dark and light mode themes, chat history management, and various customization options. Built using modern state management techniques, the app supports functionalities like Google Sign-In, local storage with Hive, and theme toggling.
+## Overview
+TQnia Chat App is a Flutter-based chat application designed to provide seamless messaging features. It offers a user-friendly interface with dark and light mode themes, chat history management, and various customization options. Built using modern state management techniques,  local storage with Hive, and theme toggling.
 
 # Features🎨
 
