@@ -11,8 +11,9 @@ import 'package:tqnia_chat_app_task/features/conversition/presentation/screens/w
 
 class Conversition extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
+  final VoidCallback toggleTheme;
 
-  Conversition({super.key});
+  Conversition({super.key, required this.toggleTheme});
 
   @override
   Widget build(BuildContext context) {

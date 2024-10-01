@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tqnia_chat_app_task/core/routes/routes.dart';
 import 'package:hive/hive.dart';
+import 'package:tqnia_chat_app_task/features/dashboard/presentation/controller/theme_cubit.dart';
 
 class DashboardScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -55,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         leading: Container(
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Theme.of(context).primaryColorLight),
+              bottom: BorderSide(color: Theme.of(context).primaryColor),
             ),
           ),
           child: IconButton(
@@ -67,24 +69,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           Container(
-            height: 100,
+            height: 100.h,
             decoration: BoxDecoration(
               border: Border(
                   bottom:
-                  BorderSide(color: Theme.of(context).primaryColorLight)),
+                      BorderSide(color: Theme.of(context).primaryColorLight)),
             ),
             child: Container(
               decoration: BoxDecoration(
                 border: Border(
                     bottom:
-                    BorderSide(color: Theme.of(context).primaryColorLight)),
+                        BorderSide(color: Theme.of(context).primaryColorLight)),
               ),
               child: Row(
                 children: [
-                  const SizedBox(width: 105),
+                  SizedBox(width: 80.w),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.conversition);
+                      Navigator.pushNamed(context, Routes.conversition,
+                          arguments: widget.toggleTheme);
                     },
                     child: Text(
                       'New chat',
@@ -104,14 +107,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       body: Container(
-      decoration: BoxDecoration(
-    border: Border(
-
-      left: BorderSide(color: Theme.of(context).primaryColorLight),
-    bottom:  BorderSide(color: Theme.of(context).primaryColorLight),
-
-    right: BorderSide(color: Theme.of(context).primaryColorLight),
-    )),
+        decoration: BoxDecoration(
+            border: Border(
+          left: BorderSide(color: Theme.of(context).primaryColorLight),
+          bottom: BorderSide(color: Theme.of(context).primaryColorLight),
+          right: BorderSide(color: Theme.of(context).primaryColorLight),
+        )),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -142,10 +143,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           IconButton(
                             icon: Icon(Icons.edit,
-                                color:
-                                Theme.of(context).textTheme.bodyLarge?.color),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color),
                             onPressed: () {
-                              _showEditDialog(context, index, chatHistory[index]);
+                              _showEditDialog(
+                                  context, index, chatHistory[index]);
                             },
                           ),
                         ],
@@ -170,7 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             TextButton.icon(
               style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).primaryColorLight,
-                textStyle:  TextStyle(fontSize: 16.sp),
+                textStyle: TextStyle(fontSize: 16.sp),
               ),
               onPressed: () {},
               icon: const Icon(Icons.person),
@@ -183,9 +187,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   TextButton(
                       style: ButtonStyle(
                           backgroundColor:
-                          WidgetStateProperty.all(const Color(0xff887B06))),
+                              WidgetStateProperty.all(const Color(0xff887B06))),
                       onPressed: () {},
-                      child:  Text(
+                      child: Text(
                         'News',
                         style: TextStyle(
                           color: Theme.of(context).primaryColorLight,
@@ -199,7 +203,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 foregroundColor: Theme.of(context).primaryColorLight,
                 textStyle: const TextStyle(fontSize: 16),
               ),
-              onPressed: widget.toggleTheme,
+              onPressed: () {
+                context.read<ThemeCubit>().toggleTheme(); // Toggle theme
+
+                widget.toggleTheme;
+              },
               icon: const Icon(Icons.light_mode),
               label: const Text('Light Mode'),
             ),
