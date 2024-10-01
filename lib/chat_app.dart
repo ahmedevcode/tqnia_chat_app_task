@@ -11,12 +11,12 @@ class ChatApp extends StatefulWidget {
   const ChatApp({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _ChatAppState createState() => _ChatAppState();
 }
 
 class _ChatAppState extends State<ChatApp> {
   bool _showOnboarding = true;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -30,6 +30,7 @@ class _ChatAppState extends State<ChatApp> {
 
     setState(() {
       _showOnboarding = !hasSeenOnboarding;
+      _isLoading = false;
     });
   }
 
@@ -57,11 +58,16 @@ class _ChatAppState extends State<ChatApp> {
               themeMode:
                   themeState is DarkTheme ? ThemeMode.dark : ThemeMode.light,
               debugShowCheckedModeBanner: false,
-              home: _showOnboarding
-                  ? OnboardingScreen(onComplete: _completeOnboarding)
-                  : DashboardScreen(toggleTheme: () {
-                      context.read<ThemeCubit>().toggleTheme();
-                    }),
+              home: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ))
+                  : _showOnboarding
+                      ? OnboardingScreen(onComplete: _completeOnboarding)
+                      : DashboardScreen(toggleTheme: () {
+                          context.read<ThemeCubit>().toggleTheme();
+                        }),
               onGenerateRoute: (settings) {
                 return AppRouter.onGenerateRoute(settings);
               },
