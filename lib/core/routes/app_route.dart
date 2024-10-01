@@ -9,27 +9,21 @@ import 'package:tqnia_chat_app_task/features/onboarding/presentation/screens/onb
 
 class AppRouter {
   static MaterialPageRoute onGenerateRoute(RouteSettings settings) {
+    final toggleTheme = settings.arguments as VoidCallback?;
+
     switch (settings.name) {
       case Routes.onBoarding:
         final onComplete = settings.arguments as VoidCallback?;
         return MaterialPageRoute(
           builder: (context) => OnboardingScreen(
-            onComplete: onComplete ??
-                () {
-                  // Default onComplete logic here (if null)
-                },
+            onComplete: onComplete ?? () {},
           ),
         );
 
       case Routes.dashboard:
-        final toggleTheme = settings.arguments as VoidCallback?;
         return MaterialPageRoute(
           builder: (context) => DashboardScreen(
-            toggleTheme: toggleTheme ??
-                () {
-                  // Default toggleTheme logic here (if null)
-                  print('toggleTheme not passed, using default');
-                },
+            toggleTheme: toggleTheme ?? () {},
           ),
         );
 
@@ -38,7 +32,9 @@ class AppRouter {
           builder: (_) => BlocProvider<ChatCubit>(
             create: (BuildContext context) =>
                 ChatCubit(GenerativeChatService()),
-            child: Conversition(),
+            child: Conversition(
+              toggleTheme: toggleTheme ?? () {},
+            ),
           ),
         );
 
