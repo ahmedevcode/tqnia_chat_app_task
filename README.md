@@ -25,7 +25,10 @@ TQnia Chat App is a Flutter-based chat application designed to provide seamless 
 # video recorder ⏺️
 
 
-https://github.com/user-attachments/assets/acbb8d9e-203a-4b29-b4f5-90ccc72bc137
+
+https://github.com/user-attachments/assets/5f83002b-48b0-4bc1-88f3-8ef7f5a0f166
+
+
 
 
 # Project Structure:🖥️
