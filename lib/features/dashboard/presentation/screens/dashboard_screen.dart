@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tqnia_chat_app_task/core/routes/routes.dart';
@@ -204,7 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 textStyle: const TextStyle(fontSize: 16),
               ),
               onPressed: () {
-                context.read<ThemeCubit>().toggleTheme(); // Toggle theme
+                context.read<ThemeCubit>().toggleTheme();
 
                 widget.toggleTheme;
               },
@@ -227,7 +228,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 foregroundColor: Colors.red,
                 textStyle: const TextStyle(fontSize: 16),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Confirm Logout'),
+                      content: const Text('Are you sure you want to log out?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Logout'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+
+                            SystemNavigator.pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
               icon: const Icon(Icons.logout),
               label: const Text('Log out'),
             )
